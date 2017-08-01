@@ -9,3 +9,8 @@ body {
 #map {
 	height: 100%;
 }
+
+.top-bar {
+	height: 60px;
+	background-color: black;
+}
