@@ -1,28 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/styles.css" rel="stylesheet">
 		<title>Neighborhood Map</title>
     <meta charset="UTF-8">
   </head>
   <body>
-		<nav id="nav" class="row">
-			<div class="col-md-12 top-bar">
-			</div>
-		</nav>
 		<div id="map">
-				<script>
-					var map;
-					function initMap() {
-						// Constructor creates a new map - only center and zoom are required.
-						map = new google.maps.Map(document.getElementById('map'), {
-							center: {lat: 35.658424, lng: -81.235107},
-							zoom: 16
-						});
-					}
-				</script>
 		</div>
+		<script>
+			function initMap() {
+				// Constructor creates a new map - only center and zoom are required.
+				var map = new google.maps.Map(document.getElementById('map'), {
+					center: {lat: 35.658424, lng: -81.235107},
+					zoom: 16,
+					mapTypeControl: false
+				});
+			}
+		</script>
 		<script async defer
 				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC--rzsuyC9alFRmmFlfJX4ho45uSCEz18&v=3&callback=initMap">
 		</script>
