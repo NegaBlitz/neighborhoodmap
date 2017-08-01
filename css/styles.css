@@ -12,7 +12,7 @@ body {
 }
 
 button {
-    background-color: #b042f4;
+    background-color: #b042f4; /* Purple */
     border: none;
     color: white;
     padding: 15px 32px;
@@ -23,13 +23,8 @@ button {
 		height: 60px;
 }
 
-*,
-*:after,
-*:before: {
-    box-sizing: inherit;
-}
-
 /* Navigation Menu - Background */
+/* Basic code provided by https://www.sitepoint.com/pure-css-off-screen-navigation-menu/ */
 .navigation {
   /* critical sizing and position styles */
   width: 100%;
