@@ -10,12 +10,13 @@
 		<script src="js/lib/jquery.min.js"></script>
 		<script src="js/lib/knockout-3.2.0.js"></script>
 		<script src="js/app.js"></script>
-		<script src="js/map.js"></script>
 		<script async defer
-				src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC--rzsuyC9alFRmmFlfJX4ho45uSCEz18&v=3&callback=initMap">
+				src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyC--rzsuyC9alFRmmFlfJX4ho45uSCEz18&v=3&callback=initMap">
 		</script>
+		<script src="js/map.js"></script>
   </head>
   <body>
+		<!-- The Navigation and Filter -->
 		<ul class="navigation">
 				<input class="nav-search" type="text" placeholder="Search">
 				<button class="nav-filter-button">Filter</button>
@@ -28,8 +29,10 @@
 
 		<input type="checkbox" id="nav-trigger" class="nav-trigger" />
 		<label for="nav-trigger"></label>
-
+		
+		<!-- The Map -->
 		<div class="site-wrap" id="map">
 		</div>
-  </body>
+  
+	</body>
 </html>
