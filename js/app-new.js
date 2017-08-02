@@ -30,6 +30,7 @@ var markers = [];
 
 //Initialize the map
 function initMap() {
+	
 	// Constructor creates a new map - only center and zoom are required.
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 35.658424, lng: -81.235107},
@@ -138,8 +139,21 @@ $(document).ready(function() {
 //***************************************************************************//
 //***************************************************************************//
 
-
-
+// This function populates the infowindow when the marker is clicked. We'll only allow
+// one infowindow which will open at the marker that is clicked, and populate based
+// on that markers position.
+function populateInfoWindow(marker, infowindow) {
+	// Check to make sure the infowindow is not already opened on this marker.
+	if (infowindow.marker != marker) {
+		infowindow.marker = marker;
+		infowindow.setContent('<div>' + marker.title + '</div>');
+		infowindow.open(map, marker);
+		// Make sure the marker property is cleared if the infowindow is closed.
+		infowindow.addListener('closeclick',function(){
+			infowindow.setMarker = null;
+		});
+	}
+}
 
 // This function takes in a COLOR, and then creates a new marker
 // icon of that color. The icon will be 21 px wide by 34 high, have an origin
