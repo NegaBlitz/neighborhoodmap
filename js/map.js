@@ -3,6 +3,9 @@ var map;
 // Create a new blank array for all the listing markers.
 var markers = [];
 
+// Puts this in the global scope
+var locations = [];
+
 function initMap() {
 	// Constructor creates a new map - only center and zoom are required.
 	map = new google.maps.Map(document.getElementById('map'), {
@@ -16,7 +19,7 @@ function initMap() {
 	});
 
 	// These are the locations of the stuff in my hometown.
-	var locations = [
+	locations = [
 		{title: 'Little Caesers', location: {lat: 35.6593, lng: -81.2289}},
 		{title: 'Western Steer', location: {lat: 35.6589, lng: -81.2306}},
 		{title: 'Blue Moon', location: {lat: 35.6637, lng: -81.2224}},

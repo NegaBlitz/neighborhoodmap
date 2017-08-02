@@ -137,6 +137,10 @@ label[for="nav-trigger"] {
 		height: 45px;
 }
 
+.hide {
+	display: none;
+}
+
 body {
     /* Without this, the body has excess horizontal scroll when the menu is open */
   overflow-x: hidden;

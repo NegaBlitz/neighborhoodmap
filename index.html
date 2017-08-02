@@ -17,15 +17,12 @@
   </head>
   <body>
 		<!-- The Navigation and Filter -->
-		<ul class="navigation">
-				<input class="nav-search" type="text" placeholder="Search">
-				<button class="nav-filter-button">Filter</button>
-				<li class="nav-item"><a href="#">Little Caeser's</a></li>
-				<li class="nav-item"><a href="#">Pin Station</a></li>
-				<li class="nav-item"><a href="#">Blue Moon</a></li>
-				<li class="nav-item"><a href="#">Western Steer</a></li>
-				<li class="nav-item"><a href="#">South Newton Elementary School</a></li>
-		</ul>
+		<nav class="navigation">
+				<input class="nav-search" type="text" placeholder="Filter" data-bind="value: filter, valueUpdate: 'afterkeydown'" />
+				<ul data-bind="foreach: filteredPlaces">
+					<li class="nav-item"><a data-bind="text: title" href="#"></a></li>
+				</ul>
+		</nav>
 
 		<input type="checkbox" id="nav-trigger" class="nav-trigger" />
 		<label for="nav-trigger"></label>
