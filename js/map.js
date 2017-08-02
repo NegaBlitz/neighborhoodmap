@@ -18,14 +18,17 @@ function initMap() {
     }
 	});
 
-	// These are the locations of the stuff in my hometown.
-	locations = [
-		{title: 'Little Caesers', location: {lat: 35.6593, lng: -81.2289}},
-		{title: 'Western Steer', location: {lat: 35.6589, lng: -81.2306}},
-		{title: 'Blue Moon', location: {lat: 35.6637, lng: -81.2224}},
-		{title: 'Pin Station', location: {lat: 35.6629, lng: -81.2297}},
-		{title: 'South Newton Elementary', location: {lat: 35.6543, lng: -81.2288}}
-	];
+	// These are the locations of the stuff in my hometown (As defined in app.js)
+	
+	// [
+	// {title: 'Little Caesers', location: {lat: 35.6593, lng: -81.2289}},
+	// {title: 'Western Steer', location: {lat: 35.6589, lng: -81.2306}},
+	// {title: 'Blue Moon', location: {lat: 35.6637, lng: -81.2224}},
+	// {title: 'Pin Station', location: {lat: 35.6629, lng: -81.2297}},
+	// {title: 'South Newton Elementary', location: {lat: 35.6543, lng: -81.2288}}
+	// ]
+
+	locations = locData;
 
 	var largeInfowindow = new google.maps.InfoWindow();
 	
@@ -38,37 +41,6 @@ function initMap() {
 	
 	var bounds = new google.maps.LatLngBounds();
 
-	// The following group uses the location array to create an array of markers on initialize.
-	for (var i = 0; i < locations.length; i++) {
-		// Get the position from the location array.
-		var position = locations[i].location;
-		var title = locations[i].title;
-		// Create a marker per location, and put into markers array.
-		var marker = new google.maps.Marker({
-			map: map,
-			position: position,
-			title: title,
-			animation: google.maps.Animation.DROP,
-			icon: defaultIcon,
-			id: i
-		});
-		// Push the marker to our array of markers.
-		markers.push(marker);
-		// Create an onclick event to open an infowindow at each marker.
-		marker.addListener('click', function() {
-			populateInfoWindow(this, largeInfowindow);
-		});
-		
-		// Two event listeners - one for mouseover, one for mouseout,
-		// to change the colors back and forth.
-		marker.addListener('mouseover', function() {
-			this.setIcon(highlightedIcon);
-		});
-		marker.addListener('mouseout', function() {
-			this.setIcon(defaultIcon);
-		});
-		bounds.extend(markers[i].position);
-	}
 	// Extend the boundaries of the map for each marker
 	map.fitBounds(bounds);
 }
@@ -101,4 +73,15 @@ function makeMarkerIcon(markerColor) {
 		new google.maps.Point(10, 34),
 		new google.maps.Size(21,34));
 	return markerImage;
+}
+
+// This function will make markers vanish, and then reappear if they do not get filtered out.
+function updateMarkers(){
+	for (var i = 0; i < markers.length; i++) {
+		markers[i].setMap(null);
+	}
+	
+	viewModel.filteredPlaces().forEach(function(place){
+		console.log(viewModel.filteredPlaces().length);
+	});
 }
