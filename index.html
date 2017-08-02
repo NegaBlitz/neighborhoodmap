@@ -17,9 +17,9 @@
   <body>
 		<!-- The Navigation and Filter -->
 		<nav class="navigation">
-				<input class="nav-search" type="text" placeholder="Filter" data-bind="value: filter, valueUpdate: 'afterkeydown'" onChange="updateMarkers();"/>
+				<input class="nav-search" type="text" placeholder="Filter" data-bind="value: filter, valueUpdate: 'afterkeydown'" oninput="updateMarkers();"/>
 				<ul data-bind="foreach: filteredPlaces">
-					<li class="nav-item"><a data-bind="text: title" href="#"></a></li>
+					<li class="nav-item"><a data-bind="text: title" onmouseover="highlightMarker();"></a></li>
 				</ul>
 		</nav>
 

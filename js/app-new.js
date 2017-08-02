@@ -3,17 +3,17 @@
 //A JSON string of the locations
 
 //Contains an escaped version of: 
-// [
-	// {title: 'Little Caesers', location: {lat: 35.6593, lng: -81.2289}},
-	// {title: 'Western Steer', location: {lat: 35.6589, lng: -81.2306}},
-	// {title: 'Blue Moon', location: {lat: 35.6637, lng: -81.2224}},
-	// {title: 'Pin Station', location: {lat: 35.6629, lng: -81.2297}},
-	// {title: 'South Newton Elementary', location: {lat: 35.6543, lng: -81.2288}}
-// ]
-var JSONplaces = "[\r\n   {\r\n      \"title\": \"Little Caesers\",\r\n      \"location\": {\r\n         \"lat\": 35.6593,\r\n         \"lng\": -81.2289\r\n      }\r\n   },\r\n   {\r\n      \"title\": \"Western Steer\",\r\n      \"location\": {\r\n         \"lat\": 35.6589,\r\n         \"lng\": -81.2306\r\n      }\r\n   },\r\n   {\r\n      \"title\": \"Blue Moon\",\r\n      \"location\": {\r\n         \"lat\": 35.6637,\r\n         \"lng\": -81.2224\r\n      }\r\n   },\r\n   {\r\n      \"title\": \"Pin Station\",\r\n      \"location\": {\r\n         \"lat\": 35.6629,\r\n         \"lng\": -81.2297\r\n      }\r\n   },\r\n   {\r\n      \"title\": \"South Newton Elementary\",\r\n      \"location\": {\r\n         \"lat\": 35.6543,\r\n         \"lng\": -81.2288\r\n      }\r\n   }\r\n]";
+
+//var JSONplaces = "[\r\n\t{title: 'Little Caesers', location: {lat: 35.6593, lng: -81.2289}, id: 0},\r\n\t{title: 'Western Steer', location: {lat: 35.6589, lng: -81.2306}, id: 1},\r\n\t{title: 'Blue Moon', location: {lat: 35.6637, lng: -81.2224}, id: 2},\r\n\t{title: 'Pin Station', location: {lat: 35.6629, lng: -81.2297}, id: 3},\r\n\t{title: 'South Newton Elementary', location: {lat: 35.6543, lng: -81.2288}, id: 4}\r\n]";
 
 //Parse the objects
-var locations = ko.utils.parseJson(JSONplaces);
+var locations = [
+	{title: 'Little Caesers', location: {lat: 35.6593, lng: -81.2289}, id: 0},
+	{title: 'Western Steer', location: {lat: 35.6589, lng: -81.2306}, id: 1},
+	{title: 'Blue Moon', location: {lat: 35.6637, lng: -81.2224}, id: 2},
+	{title: 'Pin Station', location: {lat: 35.6629, lng: -81.2297}, id: 3},
+	{title: 'South Newton Elementary', location: {lat: 35.6543, lng: -81.2288}, id: 4}
+];
 
 // Map variable
 var map;
@@ -96,14 +96,15 @@ function initMap() {
 //***************************************************************************//
 
 // Knockout 'place' objects for the map's locations
-function Place(title, location) {
+function Place(title, location, id) {
 	this.title = ko.observable(title);
 	this.location = ko.observableArray([]);
+	this.id = id;
 }
 
 // Maps everything in the locations array
 var mappedData = ko.utils.arrayMap(locations, function(place) {
-    return new Place(place.title, place.location);
+    return new Place(place.title, place.location, place.id);
 });
 
 // The viewmodel
@@ -146,7 +147,14 @@ function populateInfoWindow(marker, infowindow) {
 	// Check to make sure the infowindow is not already opened on this marker.
 	if (infowindow.marker != marker) {
 		infowindow.marker = marker;
+		
+		/*
+		*/
+		// To-do: Implement something here aside from just the title.
 		infowindow.setContent('<div>' + marker.title + '</div>');
+		/*
+		*/
+		
 		infowindow.open(map, marker);
 		// Make sure the marker property is cleared if the infowindow is closed.
 		infowindow.addListener('closeclick',function(){
@@ -171,11 +179,19 @@ function makeMarkerIcon(markerColor) {
 
 // This function will make markers vanish, and then reappear if they do not get filtered out.
 function updateMarkers(){
-	for (var i = 0; i < markers.length; i++) {
-		markers[i].setMap(null);
-	}
-	
-	viewModel.filteredPlaces().forEach(function(place){
-		console.log(viewModel.filteredPlaces().length);
-	});
+	setTimeout(function(){  
+		for (var i = 0; i < markers.length; i++) {
+			markers[i].setMap(null);
+		}
+		
+		viewModel.filteredPlaces().forEach(function(place){
+			console.log(place);
+			console.log(place.id);
+			markers[place.id].setMap(map);
+		});
+	}, 100); //Slight timeout so it has time to read the update and place/unplace the markers
+}
+
+function highlightMarker(){
+	console.log("Boop");
 }
