@@ -8,11 +8,11 @@
 
 //Parse the objects
 var locations = [
-	{title: 'Little Caesers', location: {lat: 35.6593, lng: -81.2289}, id: 0},
-	{title: 'Western Steer', location: {lat: 35.6589, lng: -81.2306}, id: 1},
-	{title: 'Blue Moon', location: {lat: 35.6637, lng: -81.2224}, id: 2},
-	{title: 'Pin Station', location: {lat: 35.6629, lng: -81.2297}, id: 3},
-	{title: 'South Newton Elementary', location: {lat: 35.6543, lng: -81.2288}, id: 4}
+	{title: 'Domino\'s Pizza', location: {lat: 35.307246, lng: -80.720780}, id: 0},
+	{title: 'Passage to India', location: {lat: 35.305722, lng: -80.723505}, id: 1},
+	{title: 'Macado\'s', location: {lat: 35.297570, lng: -80.737624}, id: 2},
+	{title: 'O\'Charley\'s Restaurant and Bar', location: {lat: 35.295793, lng: -80.741680}, id: 3},
+	{title: 'Bojangle\'s', location: {lat: 35.305390, lng: -80.733129}, id: 4},
 ];
 
 // Map variable
@@ -38,7 +38,7 @@ function initMap() {
 	
 	// Constructor creates a new map - only center and zoom are required.
 	map = new google.maps.Map(document.getElementById('map'), {
-		center: {lat: 35.658424, lng: -81.235107},
+		center: {lat: 35.307093, lng: -80.735164},
 		zoom: 14,
 		streetViewControl: false,
 		mapTypeControlOptions: {
@@ -188,10 +188,16 @@ function populateInfoWindow(marker, infowindow) {
 	if (infowindow.marker != marker) {
 		infowindow.marker = marker;
 		
+		
+		
+		
+		var infowindowString = '<h4>' + marker.title + '</h4>';
+		
+		
 		/*
 		*/
 		// To-do: Implement something here aside from just the title.
-		infowindow.setContent('<div>' + marker.title + '</div>');
+		infowindow.setContent(infowindowString);
 		/*
 		*/
 		
