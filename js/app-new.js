@@ -16,7 +16,7 @@ var locations = [
 ];
 
 // Map variable
-var map;
+var map = "None";
 
 // Create a new blank array for all of the markers.
 var markers = [];
@@ -46,6 +46,8 @@ function initMap() {
         position: google.maps.ControlPosition.TOP_CENTER
     }
 	});
+	
+	
 	
 	largeInfowindow = new google.maps.InfoWindow();
 	
@@ -80,6 +82,9 @@ function initMap() {
 				for (var i = 0; i < markers.length; i++) {
 				markers[i].setIcon(defaultIcon);
 			}
+			
+			// Animates on click
+			animateMarker(this);
 			
 			populateInfoWindow(this, largeInfowindow);
 		});
@@ -139,6 +144,12 @@ viewModel.filteredPlaces = ko.dependentObservable(function() {
 
 //Highlights the marker of the place selected, and pops the infowindow open
 viewModel.highlightMarker = function() {
+	animateMarker(markers[this.id]);
+};
+
+
+//Animates marker when clicked on
+function animateMarker(m) {
 	//Bounce this marker once and stop it after a timeout
 	
 	//Stop other markers
@@ -150,13 +161,13 @@ viewModel.highlightMarker = function() {
 	clearTimeout(animationTimeout);
 	
 	//Animate THIS MARKER
-	markers[this.id].setAnimation(google.maps.Animation.BOUNCE);
+	m.setAnimation(google.maps.Animation.BOUNCE);
 	
 	//Stop this marker after a timeout
-	stopAnimation(markers[this.id]);
+	stopAnimation(m);
 	
 	//Pop the infowindow out for this marker
-	populateInfoWindow(markers[this.id], largeInfowindow);
+	populateInfoWindow(m, largeInfowindow);
 };
 
 var animationTimeout;
@@ -209,19 +220,12 @@ function populateInfoWindow(marker, infowindow) {
 				var article = articles[i];
 				infowindowString = infowindowString.concat('<li class="article">' +
 					'<a href ="' + article.web_url + '">' + article.headline.main+'</a>'+'</li>');
-				console.log(infowindowString);
+				// console.log(infowindowString);
 			};
 			infowindow.setContent(infowindowString);
 		}).error(function(e) {
 			infowindow.setContent(infowindowString + 'New York Times articles could not be loaded');
-				console.log("what");
 		});
-		
-		/*
-		*/
-		// To-do: Implement something here aside from just the title.
-		/*
-		*/
 		
 		infowindow.open(map, marker);
 		// Make sure the marker property is cleared if the infowindow is closed.
@@ -253,9 +257,16 @@ function updateMarkers(){
 		}
 		
 		viewModel.filteredPlaces().forEach(function(place){
-			console.log(place);
-			console.log(place.id);
+			// console.log(place);
+			// console.log(place.id);
 			markers[place.id].setMap(map);
 		});
 	}, 100); //Slight timeout so it has time to read the update and place/unplace the markers
 }
+
+//Checks if the map is actually visible (Error Handling)
+var mapErrorTimeout = setTimeout(function(){
+	if(map === "None") {
+		$('#map').text("The map didn't load! Refresh and check for errors!")
+	}
+}, 3000);
