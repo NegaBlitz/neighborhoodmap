@@ -9,9 +9,9 @@
 //Parse the objects
 var locations = [
 	{title: 'Domino\'s Pizza', location: {lat: 35.307246, lng: -80.720780}, id: 0},
-	{title: 'Passage to India', location: {lat: 35.305722, lng: -80.723505}, id: 1},
-	{title: 'Macado\'s', location: {lat: 35.297570, lng: -80.737624}, id: 2},
-	{title: 'O\'Charley\'s Restaurant and Bar', location: {lat: 35.295793, lng: -80.741680}, id: 3},
+	{title: 'Wendy\'s', location: {lat: 35.311833, lng: -80.713044}, id: 1},
+	{title: 'UNC Charlotte', location: {lat: 35.307093, lng: -80.735164}, id: 2},
+	{title: 'O\'Charley\'s', location: {lat: 35.295793, lng: -80.741680}, id: 3},
 	{title: 'Bojangle\'s', location: {lat: 35.305390, lng: -80.733129}, id: 4},
 ];
 
@@ -186,18 +186,40 @@ $(document).ready(function() {
 function populateInfoWindow(marker, infowindow) {
 	// Check to make sure the infowindow is not already opened on this marker.
 	if (infowindow.marker != marker) {
+		
 		infowindow.marker = marker;
 		
+		//Pan to marker
+		map.panTo(marker.getPosition());
 		
+		//Initialize the infowindow's information
+		var infowindowString = '<h4>' + marker.title + ' recent news via New York Times</h4>';
 		
+		var timesUrl = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + marker.title + "&sort=newest&api-key=fe1ff80db0e14c8bbd2765eaa23f925c";
 		
-		var infowindowString = '<h4>' + marker.title + '</h4>';
-		
+		$.getJSON(timesUrl, function( data ) {
+			
+			articles = data.response.docs;
+			
+			while(articles.length > 5) {
+				articles.pop();
+			}
+			
+			for(var i = 0; i < articles.length; i++) {
+				var article = articles[i];
+				infowindowString = infowindowString.concat('<li class="article">' +
+					'<a href ="' + article.web_url + '">' + article.headline.main+'</a>'+'</li>');
+				console.log(infowindowString);
+			};
+			infowindow.setContent(infowindowString);
+		}).error(function(e) {
+			infowindow.setContent(infowindowString + 'New York Times articles could not be loaded');
+				console.log("what");
+		});
 		
 		/*
 		*/
 		// To-do: Implement something here aside from just the title.
-		infowindow.setContent(infowindowString);
 		/*
 		*/
 		
