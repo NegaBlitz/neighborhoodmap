@@ -112,7 +112,6 @@ var viewModel = {
 	//Initially populate places
 	places: ko.observableArray([]),
 	filter: ko.observable("")
-	//marker?
 };
 
 // Filter the viewmodel
@@ -126,6 +125,10 @@ viewModel.filteredPlaces = ko.dependentObservable(function() {
         });
     }
 }, viewModel);
+
+viewModel.highlightMarker = function() {
+	console.log(id);
+};
 
 viewModel.places(mappedData);
 
@@ -193,5 +196,4 @@ function updateMarkers(){
 }
 
 function highlightMarker(){
-	console.log("Boop");
 }
