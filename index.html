@@ -19,7 +19,7 @@
 		<nav class="navigation">
 				<input class="nav-search" type="text" placeholder="Filter" data-bind="value: filter, valueUpdate: 'afterkeydown'" oninput="updateMarkers();"/>
 				<ul data-bind="foreach: filteredPlaces">
-					<li class="nav-item"><a data-bind="text: title, click: highlightMarker()"></a></li>
+					<li class="nav-item"><a data-bind="text: title, click: $parent.highlightMarker"></a></li>
 				</ul>
 		</nav>
 

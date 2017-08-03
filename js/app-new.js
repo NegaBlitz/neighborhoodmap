@@ -28,6 +28,11 @@ var markers = [];
 //***************************************************************************//
 //***************************************************************************//
 
+//Highlighted marker icons
+var defaultIcon;
+var highlightedIcon;
+var largeInfowindow;
+
 //Initialize the map
 function initMap() {
 	
@@ -42,14 +47,14 @@ function initMap() {
     }
 	});
 	
-	var largeInfowindow = new google.maps.InfoWindow();
+	largeInfowindow = new google.maps.InfoWindow();
 	
 	// Style the markers a bit. This will be our listing marker icon.
-	var defaultIcon = makeMarkerIcon('C16AD7');
+	defaultIcon = makeMarkerIcon('C16AD7');
 
 	// Create a "highlighted location" marker color for when the user
 	// mouses over the marker.
-	var highlightedIcon = makeMarkerIcon('48BDF7');
+	highlightedIcon = makeMarkerIcon('48BDF7');
 	
 	var bounds = new google.maps.LatLngBounds();
 	
@@ -70,6 +75,12 @@ function initMap() {
 		markers.push(marker);
 		// Create an onclick event to open an infowindow at each marker.
 		marker.addListener('click', function() {
+			
+			// Unhighlights everything else
+				for (var i = 0; i < markers.length; i++) {
+				markers[i].setIcon(defaultIcon);
+			}
+			
 			populateInfoWindow(this, largeInfowindow);
 		});
 		
@@ -126,9 +137,35 @@ viewModel.filteredPlaces = ko.dependentObservable(function() {
     }
 }, viewModel);
 
+//Highlights the marker of the place selected, and pops the infowindow open
 viewModel.highlightMarker = function() {
-	console.log(id);
+	//Bounce this marker once and stop it after a timeout
+	
+	//Stop other markers
+	for (var i = 0; i < markers.length; i++) {
+		markers[i].setAnimation(null);
+	}
+	
+	//Stop timeout from being called again at the wrong time
+	clearTimeout(animationTimeout);
+	
+	//Animate THIS MARKER
+	markers[this.id].setAnimation(google.maps.Animation.BOUNCE);
+	
+	//Stop this marker after a timeout
+	stopAnimation(markers[this.id]);
+	
+	//Pop the infowindow out for this marker
+	populateInfoWindow(markers[this.id], largeInfowindow);
 };
+
+var animationTimeout;
+
+function stopAnimation(marker) {
+    animationTimeout = setTimeout(function () {
+        marker.setAnimation(null);
+    }, 750);
+}
 
 viewModel.places(mappedData);
 
@@ -193,7 +230,4 @@ function updateMarkers(){
 			markers[place.id].setMap(map);
 		});
 	}, 100); //Slight timeout so it has time to read the update and place/unplace the markers
-}
-
-function highlightMarker(){
 }
