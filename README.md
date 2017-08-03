@@ -4,7 +4,7 @@ This is a neighborhood map application that displays several restaurants in Char
 Clicking on the icon and/or list will pan to it and display news links while also animating the marker. So far I haven't found any errors in the code-base with this version!
 
 ## How to run:
-Simply run the index.html file in your browser. Some files (```map.js```, ```map-old.js```, ```app.js```) are older versions. ```app-new.js``` is the file you want to look at for most of my logic!
+Simply run the index.html file in your browser. ```app-new.js``` is the file you want to look at for most of my coding logic!
 
 #### Sources for code:
 CSS-Only Nav Menu: https://www.sitepoint.com/pure-css-off-screen-navigation-menu/
