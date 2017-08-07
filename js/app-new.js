@@ -113,8 +113,8 @@ function initMap() {
 
 // Knockout 'place' objects for the map's locations
 function Place(title, location, id) {
-	this.title = ko.observable(title);
-	this.location = ko.observableArray([]);
+	this.title = title;
+	this.location = location;
 	this.id = id;
 }
 
@@ -131,7 +131,7 @@ var viewModel = {
 };
 
 // Filter the viewmodel
-viewModel.filteredPlaces = ko.dependentObservable(function() {
+viewModel.filteredPlaces = ko.computed(function() {
     var filter = this.filter().toLowerCase();
     if (!filter) {
         return this.places();
@@ -146,6 +146,14 @@ viewModel.filteredPlaces = ko.dependentObservable(function() {
 viewModel.highlightMarker = function() {
 	animateMarker(markers[this.id]);
 };
+
+
+//Should change markers when input changes
+viewModel.filter.subscribe(function(newValue) {
+
+	//Calls the update marker function
+	updateMarkers();
+});
 
 
 //Animates marker when clicked on
@@ -197,7 +205,11 @@ $(document).ready(function() {
 function populateInfoWindow(marker, infowindow) {
 	// Check to make sure the infowindow is not already opened on this marker.
 	if (infowindow.marker != marker) {
+
+		//Prevents info from previously activated marker from appearing
+		infowindow.setContent('');
 		
+		//Gets the marker passed
 		infowindow.marker = marker;
 		
 		//Pan to marker
@@ -223,7 +235,7 @@ function populateInfoWindow(marker, infowindow) {
 				// console.log(infowindowString);
 			};
 			infowindow.setContent(infowindowString);
-		}).error(function(e) {
+		}).fail(function(e) {
 			infowindow.setContent(infowindowString + 'New York Times articles could not be loaded');
 		});
 		
@@ -251,7 +263,6 @@ function makeMarkerIcon(markerColor) {
 
 // This function will make markers vanish, and then reappear if they do not get filtered out.
 function updateMarkers(){
-	setTimeout(function(){  
 		for (var i = 0; i < markers.length; i++) {
 			markers[i].setMap(null);
 		}
@@ -261,12 +272,9 @@ function updateMarkers(){
 			// console.log(place.id);
 			markers[place.id].setMap(map);
 		});
-	}, 100); //Slight timeout so it has time to read the update and place/unplace the markers
 }
 
 //Checks if the map is actually visible (Error Handling)
-var mapErrorTimeout = setTimeout(function(){
-	if(map === "None") {
-		$('#map').text("The map didn't load! Refresh and check for errors!")
-	}
-}, 3000);
+function mapError(){
+		alert("The map didn't load! Refresh and check for errors!");
+}

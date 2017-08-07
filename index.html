@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=yes">
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/normalize.css" rel="stylesheet">
 		<link href="css/styles.css" rel="stylesheet">
@@ -9,21 +9,21 @@
     <meta charset="UTF-8">
 		<script src="js/lib/jquery.min.js"></script>
 		<script src="js/lib/knockout-3.2.0.js"></script>
-		<script async defer
+		<script src="js/app-new.js"></script>
+		<script async defer onerror="mapError()"
 				src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyC--rzsuyC9alFRmmFlfJX4ho45uSCEz18&v=3&callback=initMap">
 		</script>
-		<script src="js/app-new.js"></script>
   </head>
   <body>
 		<!-- The Navigation and Filter -->
 		<nav class="navigation">
-				<input class="nav-search" type="text" placeholder="Filter" data-bind="value: filter, valueUpdate: 'afterkeydown'" oninput="updateMarkers();"/>
+				<input class="nav-search" type="text" placeholder="Filter" data-bind="value: filter, valueUpdate: 'afterkeydown'"/>
 				<ul data-bind="foreach: filteredPlaces">
 					<li class="nav-item"><a data-bind="text: title, click: $parent.highlightMarker"></a></li>
 				</ul>
 		</nav>
 
-		<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+		<input type="checkbox" id="nav-trigger" class="nav-trigger">
 		<label for="nav-trigger"></label>
 		
 		<!-- The Map -->
