@@ -113,7 +113,7 @@ function initMap() {
 
 // Knockout 'place' objects for the map's locations
 function Place(title, location, id) {
-	this.title = title;
+	this.title = ko.observable(title);
 	this.location = location;
 	this.id = id;
 }
